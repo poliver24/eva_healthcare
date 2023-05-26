@@ -3,25 +3,25 @@ import calculateAge from "../helpers/calculateAge";
 import useForm from "../hooks/useForm";
 
 const UserForm = () => {
-    const submitUser = (event) => {
-        event.preventDefault();
-        console.log("Form submitted");
-        setUser({
-            firstName: event.target.firstName.value,
-            lastName: event.target.lastName.value,
-            age: calculateAge(event.target.dob.value),
-            email: event.target.email.value,
-        });
-        console.log(user);
-    }
+   const [user, setUser] = useState({
+     firstName: "",
+     lastName: "",
+     age: null,
+     email: "",
+   });
+
+    const submitUser = (values) => {
+      setUser({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        age: calculateAge(values.dob),
+        email: values.email,
+      });
+    };
+
     const {handleChange, values, errors, handleSubmit} = useForm(submitUser);
 
-    const [user, setUser] = useState({
-        firstName: "",
-        lastName: "",
-        age: null,
-        email: "",
-    });
+   
 
 
   return (
@@ -79,7 +79,8 @@ const UserForm = () => {
             onChange={handleChange}
           />
           {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>  }
-        </div>        {/* Submit */}
+        </div>        
+        {/* Submit */}
         <div className="mb-4">
           <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Submit

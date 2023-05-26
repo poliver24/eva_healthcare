@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import calculateAge from "../helpers/calculateAge";
+import {omit} from 'lodash'
 
 const useForm = (callBack) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
 
   const handleSubmit = (event) => {
-    console.log("Form submitted");
     if (event) event.preventDefault();
-
-    if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
-      callBack();
+    if (
+      Object.keys(errors).length === 0 &&
+      "firstName" in values &&
+      "lastName" in values &&
+      "dob" in values &&
+      "email" in values
+    ) {
+      callBack(values);
     } else {
       alert("Please ensure all fields are filled out correctly");
     }
@@ -20,18 +25,18 @@ const useForm = (callBack) => {
     switch (name) {
       case "dob":
         if (!value) {
-          console.log("dob is required");
           setErrors((errors) => ({
             ...errors,
             [name]: "Date of Birth is required",
           }));
-        } else if(calculateAge(value) < 0) {
-            setErrors((errors) => ({
-                ...errors,
-                [name]: "Date of Birth cannot be in the future",
-                }));
+        } else if (calculateAge(value) < 0) {
+          setErrors((errors) => ({
+            ...errors,
+            [name]: "Date of Birth cannot be in the future",
+          }));
         } else {
-            setErrors((errors) => ({ ...errors, [name]: "" }));
+          let newObj = omit(errors, name);
+          setErrors(newObj);
         }
         break;
       case "firstName":
@@ -41,7 +46,8 @@ const useForm = (callBack) => {
             [name]: "First Name is required",
           }));
         } else {
-          setErrors((errors) => ({ ...errors, [name]: "" }));
+          let newObj = omit(errors, name);
+          setErrors(newObj);
         }
         break;
       case "lastName":
@@ -51,7 +57,8 @@ const useForm = (callBack) => {
             [name]: "Last Name is required",
           }));
         } else {
-          setErrors((errors) => ({ ...errors, [name]: "" }));
+          let newObj = omit(errors, name);
+          setErrors(newObj);
         }
         break;
       case "email":
@@ -63,7 +70,8 @@ const useForm = (callBack) => {
             [name]: "Please enter a valid Email Address",
           }));
         } else {
-          setErrors((errors) => ({ ...errors, [name]: "" }));
+          let newObj = omit(errors, name);
+          setErrors(newObj);
         }
         break;
       default:
@@ -72,7 +80,6 @@ const useForm = (callBack) => {
   };
 
   const handleChange = (event) => {
-    console.log("handleChange");
     event.persist();
 
     let name = event.target.name;
