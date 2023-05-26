@@ -23,8 +23,8 @@ I will be create a ReactJS App to do the following:
 
 - Create a form collecting users first name, last name, email address and date of birth
 - convert D.O.B to age in years
-- onSubmit post form to https://mockend.com/api/pgilgunn/coding-test/users
 - Add validation to ensure all fields are collected
+- onSubmit post form to https://mockend.com/api/pgilgunn/coding-test/users
 
 I will then: 
 
