@@ -1,0 +1,9 @@
+version: '1.0'
+services:
+
+  frontend:
+    build:
+      context: ./client
+    ports:
+      - 3000:80
+
