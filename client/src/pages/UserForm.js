@@ -2,32 +2,34 @@ import React, { useState } from "react";
 import calculateAge from "../helpers/calculateAge";
 import useForm from "../hooks/useForm";
 import postUser from "../helpers/postUser"
+import AfterSubmit from "./AfterSubmit";
 
 const UserForm = () => {
-   const [user, setUser] = useState({
-     firstName: "",
-     lastName: "",
-     age: null,
-     email: "",
-   });
+  //  const [user, setUser] = useState({
+  //    firstName: "",
+  //    lastName: "",
+  //    age: null,
+  //    email: "",
+  //  });
 
    const [loading, setLoading] = useState(false);
+   const [submitted, setSubmitted] = useState(false);
 
     const submitUser = async (values) => {
-      setUser({
+      setLoading(true);
+      await postUser({
         firstName: values.firstName,
         lastName: values.lastName,
         age: calculateAge(values.dob),
         email: values.email,
       });
-      setLoading(true);
-      await postUser(user);
       setLoading(false);
+      setSubmitted(true);
     };
 
     const {handleChange, values, errors, handleSubmit} = useForm(submitUser);
 
-  return loading ? (
+  return submitted ? <AfterSubmit/> : loading ? (
       <div>Loading...</div>
   ) : (
     <div className="container mx-auto mt-10 p-4 bg-white rounded shadow-lg">
