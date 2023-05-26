@@ -1,7 +1,21 @@
 import React, { useState } from "react";
-import calulateAge from "../helpers/calculateAge";
+import calculateAge from "../helpers/calculateAge";
+import useForm from "../hooks/useForm";
 
 const UserForm = () => {
+    const submitUser = (event) => {
+        event.preventDefault();
+        console.log("Form submitted");
+        setUser({
+            firstName: event.target.firstName.value,
+            lastName: event.target.lastName.value,
+            age: calculateAge(event.target.dob.value),
+            email: event.target.email.value,
+        });
+        console.log(user);
+    }
+    const {handleChange, values, errors, handleSubmit} = useForm(submitUser);
+
     const [user, setUser] = useState({
         firstName: "",
         lastName: "",
@@ -9,66 +23,68 @@ const UserForm = () => {
         email: "",
     });
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        console.log("Form submitted");
-        setUser({
-            firstName: event.target.firstName.value,
-            lastName: event.target.lastName.value,
-            age: calulateAge(event.target.dob.value),
-            email: event.target.email.value,
-        });
-        console.log(user);
-    }
 
   return (
-    <div>
-      <h1>User Form</h1>
-      <form onSubmit={onSubmit}>
+    <div className="container mx-auto mt-10 p-4 bg-white rounded shadow-lg">
+      <h1 className="text-3xl font-semibold mb-4">User Form</h1>
+      <form onSubmit={handleSubmit}>
         {/* First name */}
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
+        <div className="mb-4">
+          <label htmlFor="firstName" className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
           <input
             type="text"
-            className="form-control"
+            name="firstName"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="firstName"
             placeholder="First Name"
+            onChange={handleChange}
           />
+          {errors.firstName && <p className="text-red-500 text-xs italic">{errors.firstName}</p>  }
         </div>
         {/* Last Name */}
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
+        <div className="mb-4">
+          <label htmlFor="lastName" className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
           <input
             type="text"
-            className="form-control"
+            name="lastName"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="lastName"
             placeholder="Last Name"
+            onChange={handleChange}
           />
+          {errors.lastName && <p className="text-red-500 text-xs italic">{errors.lastName}</p>  }
         </div>
         {/* Date of Birth */}
-        <div className="form-group">
-          <label htmlFor="dob">Date of Birth</label>
+        <div className="mb-4">
+          <label htmlFor="dob" className="block text-gray-700 text-sm font-bold mb-2">Date of Birth</label>
           <input
             type="date"
-            className="form-control"
+            name="dob"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="dob"
             placeholder="Date of Birth"
+            onChange={handleChange}
           />
+          {errors.dob && <p className="text-red-500 text-xs italic">{errors.dob}</p>  }
         </div>
         {/* Email Address */}
-        <div className="form-group">
-          <label htmlFor="email">Email Address</label>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
           <input
             type="email"
-            className="form-control"
+            name="email"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             placeholder="Email Address"
+            onChange={handleChange}
           />
+          {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>  }
+        </div>        {/* Submit */}
+        <div className="mb-4">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Submit
+          </button>
         </div>
-        {/* Submit */}
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-const calulateAge = (dob) => {
+const calculateAge = (dob) => {
   const today = new Date();
   const birthDate = new Date(dob);
   let age = today.getFullYear() - birthDate.getFullYear();
@@ -9,4 +9,4 @@ const calulateAge = (dob) => {
   return age;
 };
 
-export default calulateAge;
+export default calculateAge;
