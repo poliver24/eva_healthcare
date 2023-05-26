@@ -8,6 +8,9 @@ const useForm = (callBack) => {
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
+    for (let key in values) {
+      validate(event, key, values[key]);
+    }
     if (
       Object.keys(errors).length === 0 &&
       "firstName" in values &&
